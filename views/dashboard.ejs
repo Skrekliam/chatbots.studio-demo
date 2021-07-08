@@ -1,0 +1,15 @@
+<html>
+
+<head>
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <% dogs.forEach(function(el) { %>
+    <h6>Dog id:<%= el.id %>
+    </h6>
+    <img src="<%=el.post.url%>" width="<%=el.post.width !== 0 ? el.post.width : 'auto'%>" />
+    <% }); %>
+</body>
+
+</html>

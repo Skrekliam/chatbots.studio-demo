@@ -33,14 +33,35 @@ app.get('/upload/dog/image', (req: any, res: any): any => {
     axios.get('https://random.dog/woof.json?filter=mp4,webm').then((res1: any) => {
         const data: DataResponse = res1.data;
 
-        db.collection("dogs").add({ ...data, width: req.query.width?? 0 , height: req.query.height?? 0 }).then(():any =>res.send('Success!'))
+        db.collection("dogs").add({ ...data, width: req.query.width ?? 0}).then((): any => res.send('Success!'))
             .catch((err: any) => console.log(err))
 
     })
 })
 
+interface PostDoc {
+    fileSizeBytes: number,
+    width: string,
+    url: string
+}
+
+interface ReadDoc {
+    id: "string",
+    post: PostDoc
+}
+
+
 app.get('/list/dog/images', (req: any, res: any): any => {
-    db.collection('dogs').get().then((doc: any): any => console.log(doc))
+    db.collection("dogs")
+        .onSnapshot((snapshot: any) => {
+            const dogs: ReadDoc[] = [];
+            snapshot.docs.map((doc: any): any => dogs.push({
+                id: doc.id,
+                post: doc.data(),
+            }))
+            res.render('dashboard.ejs', { dogs : dogs })
+        });
+
 })
 
 app.listen(3000, (): any => console.log('port : 3000 '));
