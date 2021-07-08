@@ -33,7 +33,7 @@ app.get('/upload/dog/image', (req: any, res: any): any => {
     axios.get('https://random.dog/woof.json?filter=mp4,webm').then((res1: any) => {
         const data: DataResponse = res1.data;
 
-        db.collection("dogs").add({ ...data, width: req.query.width ?? 0,timestamp: firebase.firestore.FieldValue.serverTimestamp()}).then((): any => res.send('Success! <a href="/lis/dog/images">Go to list</a>'))
+        db.collection("dogs").add({ ...data, width: req.query.width ?? 0, timestamp: firebase.firestore.FieldValue.serverTimestamp() }).then((): any => res.send('Success! <a href="/list/dog/images">Go to list</a>'))
             .catch((err: any) => console.log(err))
 
     })
@@ -53,14 +53,14 @@ interface ReadDoc {
 
 app.get('/list/dog/images', (req: any, res: any): any => {
     db.collection("dogs")
-    .orderBy("timestamp", "desc")
+        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot: any) => {
             const dogs: ReadDoc[] = [];
-            snapshot.docs.map((doc: any): any =>  dogs.push({
+            snapshot.docs.map((doc: any): any => dogs.push({
                 id: doc.id,
                 post: doc.data(),
             }))
-            res.render('dashboard.ejs', { dogs : dogs })
+            res.render('dashboard.ejs', { dogs: dogs })
         });
 
 })

@@ -11,11 +11,17 @@
 <body>
     <h1>Add new photo to database</h1>
     <label>Enter image width(optional)</label><input value="0" id="setWidth" type="number" maxlength="4" /><button onclick="onCreate()">Create Image</button>
+    <h1>Open list with added dogs</h1>
+    <label>Enter max image width to show(optional)</label><input value="0" id="setMaxWidth" type="number" maxlength="4" /><button onclick="onShow()">Show list</button>
 </body>
 <script>
     const onCreate = () => {
         const width = document.querySelector("#setWidth").value;
         window.location.replace(`/upload/dog/image?width=${width}`)
+    }
+    const onShow = () => {
+        const width = document.querySelector("#setMaxWidth").value;
+        window.location.replace(`/list/dog/images?width=${width}`)
     }
 </script>
 </html>
