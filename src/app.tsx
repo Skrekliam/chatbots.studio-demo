@@ -30,14 +30,13 @@ app.get('/', (req: any, res: any): any => {
 })
 
 app.get('/upload/dog/image', (req: any, res: any): any => {
-    axios.get('https://random.dog/woof.json?filter=mp4,webm').then((res1: any) => { 
-        console.log(req.query.width, req.query.height)
+    axios.get('https://random.dog/woof.json?filter=mp4,webm').then((res1: any) => {
         const data: DataResponse = res1.data;
 
-         db.collection("dogs").add({...data})
-            .catch((err : any) => console.log(err))
-        
-        } )
+        db.collection("dogs").add({ ...data, width: req.query.width, height: req.query.height }).then(():any =>res.send('Success!'))
+            .catch((err: any) => console.log(err))
+
+    })
 })
 
 app.listen(3000, (): any => console.log('port : 3000 '));
