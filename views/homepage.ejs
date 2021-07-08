@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+
+<body>
+    <h1>Add new photo to database</h1>
+    <label>Enter image width(optional)</label><input value="0" id="setWidth" type="number" maxlength="4" /><button onclick="onCreate()">Create Image</button>
+</body>
+<script>
+    const onCreate = () => {
+        const width = document.querySelector("#setWidth").value;
+        window.location.replace(`/upload/dog/image?width=${width}`)
+    }
+</script>
+</html>
