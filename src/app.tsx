@@ -39,4 +39,8 @@ app.get('/upload/dog/image', (req: any, res: any): any => {
     })
 })
 
+app.get('/list/dog/images', (req: any, res: any): any => {
+    db.collection('dogs').get().then((doc: any): any => console.log(doc))
+})
+
 app.listen(3000, (): any => console.log('port : 3000 '));
