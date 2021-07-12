@@ -5,11 +5,17 @@
 </head>
 
 <body>
+  <button onclick="handleBack()">Back</button>
   <% dogs.forEach(function(el) { %>
     <h6>Dog id:<%= el.id%>
     </h6>
     <img src="<%=el.post.url%>" width="<%=el.post.width !== '0' ? el.post.width : 'auto'%>" />
     <% }); %>
 </body>
+<script>
+  const handleBack = () => {
+    window.location.replace("/")
+  }
+</script>
 
 </html>

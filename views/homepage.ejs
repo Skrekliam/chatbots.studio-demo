@@ -10,18 +10,42 @@
 
 <body>
     <h1>Add new photo to database</h1>
-    <label>Enter image width(optional)</label><input value="0" id="setWidth" type="number" maxlength="4" /><button onclick="onCreate()">Create Image</button>
+    <label>Enter image width(optional)</label><input value="0" id="setWidth" type="number" maxlength="4" /><button
+        onclick="onCreate()">Create Image</button>
     <h1>Open list with added dogs</h1>
-    <label>Enter max image width to show(optional)</label><input value="0" id="setMaxWidth" type="number" maxlength="4" /><button onclick="onShow()">Show list</button>
+    <div class="filter">
+        <input value="Resized" id="filter" checked type="checkbox" onclick="handleFilter()" />
+        <label for="filter">Use Filter</label><br />
+    </div>
+    <div class="resized">
+        <input value="Resized" id="resized" type="checkbox" placeholder="Resized" />
+        <label for="resized">Checked: Resized images | Unchecked: Original sized images</label><br />
+    </div>
+    <button onclick="onShow()">Show dogs</button>
 </body>
 <script>
+    const handleFilter = () => {
+        if (!document.querySelector("#filter").checked) {
+            document.querySelector(".resized").style.display = "none"
+        } else {
+            document.querySelector(".resized").style.display = "block"
+
+        }
+    }
     const onCreate = () => {
         const width = document.querySelector("#setWidth").value;
         window.location.replace(`/upload/dog/image?width=${width}`)
     }
     const onShow = () => {
-        const width = document.querySelector("#setMaxWidth").value;
-        window.location.replace(`/list/dog/images?width=${width}`)
+        if (document.querySelector("#filter").checked) {
+            const resized = document.querySelector("#resized").checked;
+            console.log(resized )
+            console.log(resized === false ? 1 : 0)
+            window.location.replace(`/list/dog/images?resized=${resized === false ? 0 : 1}`)
+        } else {
+            window.location.replace(`/list/dog/images`);
+        }
     }
 </script>
+
 </html>
