@@ -55,12 +55,37 @@ app.get('/list/dog/images', (req: any, res: any): any => {
     db.collection("dogs")
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot: any) => {
-            const dogs: ReadDoc[] = [];
-            snapshot.docs.map((doc: any): any => dogs.push({
-                id: doc.id,
-                post: doc.data(),
-            }))
-            res.render('dashboard.ejs', { dogs: dogs })
+            const dogsRes: ReadDoc[] = [];
+            const dogsNotRes: ReadDoc[] = [];
+            const allDogs: ReadDoc[] = [];
+            snapshot.docs.map((doc: any): any => {
+                if (doc.data().width !== '0') {
+                    dogsRes.push({
+                        id: doc.id,
+                        post: doc.data()
+                    });
+                } else {
+                    dogsNotRes.push({
+                        id: doc.id,
+                        post: doc.data()
+                    });
+                }
+                allDogs.push({
+                    id: doc.id,
+                    post: doc.data()
+                });
+            });
+
+
+            if (Object.keys(req.query).length === 0) {
+                res.render('dashboard.ejs', { dogs: allDogs });
+            }
+            if (req.query.resized === '0') {
+                res.render('dashboard.ejs', { dogs: dogsNotRes });
+            }
+            else if (req.query.resized === '1') {
+                res.render('dashboard.ejs', { dogs: dogsRes });
+            }
         });
 
 })
